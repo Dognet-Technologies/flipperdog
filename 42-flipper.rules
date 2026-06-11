@@ -1,0 +1,11 @@
+# Flipper Zero udev rules - accesso non-root via gruppo dialout + uaccess
+# VID 0483 = STMicroelectronics (MCU del Flipper)
+
+# Flipper Zero - porta seriale CDC (modalita' normale, /dev/ttyACM0)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", TAG+="uaccess", GROUP="dialout", MODE="0660"
+
+# Flipper Zero - DFU (bootloader, per flash a basso livello / recovery)
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", TAG+="uaccess", GROUP="dialout", MODE="0660"
+
+# WiFi Devboard ESP32 (CP210x) in download mode - per Marauder/evil-portal
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", TAG+="uaccess", GROUP="dialout", MODE="0660"

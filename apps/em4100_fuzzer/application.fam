@@ -1,0 +1,12 @@
+App(
+    appid="em4100_fuzzer",
+    name="EM4100 ID Fuzzer",
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="em4100_fuzzer_app",
+    stack_size=4 * 1024,
+    fap_category="RFID",
+    fap_icon="em4100_fuzzer.png",
+    fap_description="Sequential EM4100 ID emulator for authorized physical access pentests",
+    fap_author="Dognet Technologies",
+    fap_version="1.0",
+)

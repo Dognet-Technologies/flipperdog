@@ -1,0 +1,20 @@
+# --- Python tooling ---
+tools/venv/
+__pycache__/
+*.pyc
+
+# --- Firmware package (binario, riscaricabile da release Momentum) ---
+firmware-pkg/
+
+# --- Artefatti di build ufbt ---
+apps/*/dist/
+apps/*/.vscode/
+.ufbt/
+
+# --- Settings locali Claude / IDE ---
+.claude/
+.idea/
+
+# --- OS ---
+.DS_Store
+Thumbs.db

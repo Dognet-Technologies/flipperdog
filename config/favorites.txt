@@ -1,0 +1,13 @@
+125 kHz RFID
+NFC
+/ext/apps/RFID/em4100_fuzzer.fap
+/ext/apps/NFC/picopass.fap
+/ext/apps/NFC/mfkey.fap
+/ext/apps/NFC/nfc_magic.fap
+/ext/apps/NFC/seader.fap
+Sub-GHz
+iButton
+Infrared
+Bad KB
+/ext/apps/GPIO/ESP/esp32_wifi_marauder.fap
+/ext/apps/GPIO/ESP/evil_portal.fap
