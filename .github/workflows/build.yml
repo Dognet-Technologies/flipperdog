@@ -1,0 +1,56 @@
+name: Build FAPs
+
+# CI volutamente NON attiva sui push a main (main riceve solo merge gia' validati).
+# Gira sui rami di lavoro e valida le PR verso develop e main.
+on:
+  push:
+    branches:
+      - develop
+      - 'feature/**'
+  pull_request:
+    branches:
+      - develop
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build .fap (ufbt, Momentum mntm)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ufbt
+        run: pip install --upgrade ufbt
+
+      - name: Fetch Momentum SDK (release channel)
+        run: ufbt update --index-url https://up.momentum-fw.dev/firmware/directory.json --channel release
+
+      - name: Build all FAPs under apps/
+        run: |
+          set -euo pipefail
+          built=0
+          for d in apps/*/; do
+            [ -f "${d}application.fam" ] || continue
+            echo "::group::Build ${d}"
+            ( cd "$d" && ufbt )
+            echo "::endgroup::"
+            built=$((built + 1))
+          done
+          echo "App compilate: ${built}"
+          test "${built}" -gt 0
+
+      - name: Upload FAPs
+        uses: actions/upload-artifact@v4
+        with:
+          name: faps
+          path: apps/*/dist/*.fap
+          if-no-files-found: error
